@@ -1,4 +1,5 @@
 # Simple powershell script to determine the working time based on the Windows logon and logoff events.
+# Needs elevated rights to access the Security event log.
 #
 # Copyright 2020 lordyavin
 # 
@@ -8,11 +9,6 @@
 param (
     [switch]$v = $false
 )
-
-if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Start-Process PowerShell -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"cd '$pwd'; & '$PSCommandPath';`"";
-    exit;
-}
 
 $target = New-TimeSpan -Hour 6
 $now = Get-Date
